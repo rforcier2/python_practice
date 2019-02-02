@@ -1,4 +1,4 @@
-# Time to start making a web crawler:
+# Time to start testing strings and manipulating them
 page = '''
 <div id="top_bin">
   <div id="top_content" class="width960">
@@ -95,3 +95,28 @@ def median(a,b,c):
     return bigger(a,b)
   
 print(median(9,4,7))
+
+#collatz conjecture
+def collatz(n):
+    while n != 1:
+        if n % 2 == 0: #n is even
+            n = n/2
+            print(n)
+        else:
+            n = 3*n + 1
+            print(n)
+#returns 16/8/4/2/1
+collatz(5)
+
+#More string manipulation
+#
+# finds the last target string occurance in a string 
+
+def find_last(string, target):
+  last_pos = -1
+  while True:
+    pos = string.find(target, last_pos+1)
+    if pos == -1:
+      return last_pos
+    last_pos = pos
+print(find_last('hello my name is hello there', 'hello'))
