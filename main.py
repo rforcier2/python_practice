@@ -32,14 +32,8 @@ def find_second(string, target):
   first_target = string.find(target)
   return string.find(target, first_target+1)
 
-
-
 print ( find_second(string, "Hello") )
 
-def bigger(a, b):
-  return a if a > b else b
-
-print ( bigger(5,2))
 
 def is_friend(friends_name):
   # a function that tells if a another name is a friends'
@@ -66,11 +60,6 @@ def is_friend(friends_name):
 print(is_friend("Nancy"))
 
 
-def biggest(a,b,c):
-  return max(a,b,c)
-
-print( biggest(5,2,3) )
-
 def print_numbers(n):
   i = 0
   while i < n:
@@ -79,6 +68,8 @@ def print_numbers(n):
 
 print(print_numbers(4))
 
+
+#small mathy section. Making functions to return comparisons of numbers
 def factorial(n):
   result = 1
   while n >= 1:
@@ -86,3 +77,21 @@ def factorial(n):
     n = n-1
   return result
 print(factorial(5))
+
+
+def bigger(a,b):
+  return max(a,b)  
+
+def biggest(a,b,c):
+  return max(a,b,c)   
+
+def median(a,b,c):
+  big = biggest(a,b,c) 
+  if big == a:
+    return  bigger(b,c)
+  if big == b:
+    return bigger(a,c)
+  else:
+    return bigger(a,b)
+  
+print(median(9,4,7))
