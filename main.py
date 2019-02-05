@@ -120,3 +120,142 @@ def find_last(string, target):
       return last_pos
     last_pos = pos
 print(find_last('hello my name is hello there', 'hello'))
+
+
+
+def count_spaces(string):
+  if string.find(' '):
+    print(string.count(' '))
+
+count_spaces('The Lions nest is near, and it can smell you')
+
+#Given your birthday and a set date, calculate age in days:
+def isLeapYear(year):
+    if year%4==0:
+        if year%100==0:
+            return year%400==0
+        else:
+            return True
+    else:
+        return False
+    
+def daysInMonth(year,month):
+    if month==2:
+        if isLeapYear(year):
+            return 29
+        else: return 28
+    if month==1 or month==3 or month==5 or month==5 or month==7 or month==8 or month==10 or month==12:
+        return 31
+    else:
+        return 30
+        
+def nextDay(year, month, day):
+    """Simple version: assume every month has 30 days"""
+    if day < daysInMonth(year,month):
+        return year, month, day + 1
+    else:
+        if month == 12:
+            return year + 1, 1, 1
+        else:
+            return year, month + 1, 1
+        
+def dateIsAfter(year1, month1, day1, year2, month2, day2):
+    """Returns True if year1-month1-day1 is after year2-month2-day2.  Otherwise, returns False."""
+    if year1 > year2:
+        return True
+    if year1 == year2:
+        if month1 > month2:
+            return True
+        if month1 == month2:
+            return day1 > day2
+    return False        
+
+def daysBetweenDates(year1, month1, day1, year2, month2, day2):
+    """Returns the number of days between year1/month1/day1
+       and year2/month2/day2. Assumes inputs are valid dates
+       in Gregorian calendar."""
+    # program defensively! Add an assertion if the input is not valid!
+    assert dateIsAfter(year2, month2, day2, year1, month1, day1)
+    
+    days = 0
+    while dateIsAfter(year2, month2, day2, year1, month1, day1):
+        days += 1
+        (year1, month1, day1) = nextDay(year1, month1, day1)
+    return days
+
+
+# Test routine
+
+def test():
+    test_cases = [((2012,1,1,2012,2,28), 58), 
+                  ((2012,1,1,2012,3,1), 60),
+                  ((2011,6,30,2012,6,30), 366),
+                  ((2011,1,1,2012,8,8), 585 ),
+                  ((1900,1,1,1999,12,31), 36523),
+                  ((1993,3,7,2019,2,4), 9465)]
+    for (args, answer) in test_cases:
+        result = daysBetweenDates(*args)
+        if result != answer:
+            print ("Test with data:", args, ":( Failed")
+        else:
+            print ("PASSED. Test case with data:", args, "Answer:", answer, "days")
+
+test()
+
+print ("I am :", daysBetweenDates(1993, 3, 7, 2019, 2, 4), "days old")
+print("Sydney is:", daysBetweenDates(1997,1,21,2019,2,4), "days old.")
+
+def print_abacus(value):
+   #line code 1
+   numbers= ["|00000*****   |",
+            "|00000****   *|",
+            "|00000***   **|",
+            "|00000**   ***|",
+            "|00000*   ****|",
+            "|00000   *****|",
+            "|0000   0*****|",
+            "|000   00*****|",
+            "|00   000*****|",
+            "|0   0000*****|",]
+   #line code 2 and 3        
+   for n in ("0"*(10-len(str(value)))+str(value)):
+       print (numbers[int(n)])
+
+###  TEST CASES
+print ("\nAbacus showing 0:\n")
+print_abacus(0)
+
+print('\n Abacus Showing 2313608:')
+print_abacus(2313601)
+
+
+print('\n')
+print("This demonstrates Leap Year Babies. If they were born on the day and year of a Leap Year: \n")
+def is_leap_baby(day,month,year):
+    # Write your code after this line.
+    if day is 29 and month is 2:
+        if year%4 is 0:
+            if year%100 is 0:
+                return year%400 is 0
+            return True
+        return False
+    return False
+
+# The function 'output' prints one of two statements based on whether 
+# the is_leap_baby function returned True or False.
+
+def output(status, name):
+    if status:
+        print ("%s is a leap year baby!" % name)
+    else:
+        print ("%s NOT a leap year baby!" % name)
+
+# Test Cases
+
+output(is_leap_baby(29, 2, 1996), 'Born 2/29/1996, Calvin')
+#>>>Calvin is one of an extremely rare species. He is a leap year baby!
+
+output(is_leap_baby(29, 2, 1900), 'Born 2/29/1900, Charlie')
+#>>>There's nothing special about Charlie's birthday. He is not a leap year baby!
+
+
