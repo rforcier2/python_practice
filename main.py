@@ -279,3 +279,18 @@ def testPalindrome():
 
 testPalindrome();
 
+def currentDaysFromBirth(year1,month1,day1):
+  import datetime
+  now = datetime.datetime.now()  
+
+  assert dateIsAfter(now.year, now.month, now.day, year1, month1, day1)
+
+  days=0
+  while dateIsAfter(now.year, now.month, now.day, year1, month1, day1):
+    days +=1
+    (year1,month1,day1) = nextDay(year1,month1,day1)
+  return days
+
+
+
+print(currentDaysFromBirth(1997,1,22))
