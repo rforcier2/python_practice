@@ -258,4 +258,24 @@ output(is_leap_baby(29, 2, 1996), 'Born 2/29/1996, Calvin')
 output(is_leap_baby(29, 2, 1900), 'Born 2/29/1900, Charlie')
 #>>>There's nothing special about Charlie's birthday. He is not a leap year baby!
 
+#Check if string is a palindrome:
+def checkPalindrome(inputString):
+    return inputString == inputString[::-1]
+
+def testPalindrome():
+    test_cases = [(("aabbaa"), True), 
+                  (('racecar'), True),
+                  (('hammertime'), False),
+                  (('timmy ymmit'), True ),
+                  (('DammItImmaD'), True),
+                  (('HelolleH'), False),
+                  (('Hello World!'), False)]
+    for (args, answer) in test_cases:
+        result = checkPalindrome(args)
+        if result != answer:
+            print (":( Failed... Test with data:", args, "Ans: ", answer, "Res: ", result)
+        else:
+            print ("PASSED. Test case with data:", args, "Ans:", answer)
+
+testPalindrome();
 
