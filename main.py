@@ -293,4 +293,4 @@ def currentDaysFromBirth(year1,month1,day1):
 
 
 
-print(currentDaysFromBirth(1997,1,22))
+print(currentDaysFromBirth(1995,1,22))
