@@ -1,8 +1,14 @@
-# Time to start testing strings and manipulating them
+import time
+
+# Time to start making a web crawler:
 page = '''
-<div id="top_bin">
+<div id="top_bin"> 
   <div id="top_content" class="width960">
-    <div class="udacity float-left"><a href="http://udacity.com">Udacity</a><a href="http://youtube.com">youtube</a><a href="http://codepen.io">Codepen</a><a href="http://starlimeweb.com">starlime</a>
+    <div class="udacity float-left">
+    <a href="http://udacity.com">Udacity</a>
+    <a href="http://youtube.com">youtube</a>
+    <a href="http://codepen.io">Codepen</a>
+    <a href="http://github.com">Github</a> 
      '''
 #second Link
 start_link = page.find("<a href=")
@@ -32,8 +38,14 @@ def find_second(string, target):
   first_target = string.find(target)
   return string.find(target, first_target+1)
 
+  
+
 print ( find_second(string, "Hello") )
 
+def bigger(a, b):
+  return a if a > b else b
+
+print ( bigger(5,2))
 
 def is_friend(friends_name):
   # a function that tells if a another name is a friends'
@@ -60,6 +72,11 @@ def is_friend(friends_name):
 print(is_friend("Nancy"))
 
 
+def biggest(a,b,c):
+  return max(a,b,c)
+
+print( biggest(5,2,3) )
+
 def print_numbers(n):
   i = 0
   while i < n:
@@ -68,33 +85,46 @@ def print_numbers(n):
 
 print(print_numbers(4))
 
-
-#small mathy section. Making functions to return comparisons of numbers
 def factorial(n):
   result = 1
   while n >= 1:
     result = result * n
     n = n-1
-  return result
+  return result   
 print(factorial(5))
 
 
-def bigger(a,b):
-  return max(a,b)  
 
-def biggest(a,b,c):
-  return max(a,b,c)   
 
-def median(a,b,c):
-  big = biggest(a,b,c) 
-  if big == a:
-    return  bigger(b,c)
-  if big == b:
-    return bigger(a,c)
-  else:
-    return bigger(a,b)
-  
-print(median(9,4,7))
+def get_page(link):
+  from urllib.request import urlopen
+  web_page = urlopen(link)
+  web_page_text = web_page.read()
+  page_content = web_page_text.decode('UTF-8')
+  return page_content
+
+def get_next_link(page_string):
+  start_link = page_string.find("<a href=")
+  if start_link == -1:
+    return None, 0
+  start_quote = page_string.find('"', start_link)
+  end_quote = page_string.find('"', start_quote+1)
+  url = page_string[start_quote+1:end_quote]
+  return url, end_quote
+
+
+# This function will retrieve all links while there are
+# links and print them to the console.
+def print_all_links(valid_page):
+  while valid_page:
+    url, endpos = get_next_link(valid_page)  
+    if url:
+      print (url)
+      valid_page = valid_page[endpos:]
+    else: 
+      break
+
+#print_all_links(get_page('https://youtube.com'))
 
 #collatz conjecture
 def collatz(n):
@@ -105,11 +135,11 @@ def collatz(n):
         else:
             n = 3*n + 1
             print(n)
-#returns 16/8/4/2/1
-collatz(5)
 
-#More string manipulation
-#
+collatz(4)
+
+
+
 # finds the last target string occurance in a string 
 
 def find_last(string, target):
@@ -121,6 +151,33 @@ def find_last(string, target):
     last_pos = pos
 print(find_last('hello my name is hello there', 'hello'))
 
+def stamps(target):
+    current = 0
+    fives = 0
+    twos = 0
+    ones = 0
+
+    while target - current >= 5:
+        fives += 1
+        current += 5
+
+    while target - current >= 2:
+        twos += 1
+        current += 2
+
+    while target - current >= 1:
+        ones += 1
+        current += 1
+
+    return fives, twos, ones
+
+print (stamps(28))
+
+def set_range(a,b,c):
+    return max(a,b,c) - min(a,b,c) 
+
+print(set_range(3,5,7))
+
 
 
 def count_spaces(string):
@@ -129,7 +186,11 @@ def count_spaces(string):
 
 count_spaces('The Lions nest is near, and it can smell you')
 
+
 #Given your birthday and a set date, calculate age in days:
+
+
+#first define leap year to have the correct days for February
 def isLeapYear(year):
     if year%4==0:
         if year%100==0:
@@ -139,18 +200,21 @@ def isLeapYear(year):
     else:
         return False
     
+   
+# Next, a function to get how many days are in each month
 def daysInMonth(year,month):
     if month==2:
         if isLeapYear(year):
             return 29
-        else: return 28
+        return 28
     if month==1 or month==3 or month==5 or month==7 or month==8 or month==10 or month==12:
         return 31
     else:
         return 30
         
+# Function to get the next day and calculate the next correct date.
 def nextDay(year, month, day):
-    """Simple version: assume every month has 30 days"""
+    """Use our Days in month function to determine next day"""
     if day < daysInMonth(year,month):
         return year, month, day + 1
     else:
@@ -158,7 +222,13 @@ def nextDay(year, month, day):
             return year + 1, 1, 1
         else:
             return year, month + 1, 1
-        
+
+# AFDHEJK
+
+# Ensures the second date(year2, month2, day2) is AFTER our
+# first date(year1, month1, day1). 
+# We cannot time travel, therefore counting 
+# days backwards will not be considered valid.
 def dateIsAfter(year1, month1, day1, year2, month2, day2):
     """Returns True if year1-month1-day1 is after year2-month2-day2.  Otherwise, returns False."""
     if year1 > year2:
@@ -170,11 +240,13 @@ def dateIsAfter(year1, month1, day1, year2, month2, day2):
             return day1 > day2
     return False        
 
+ 
+# Final step, This will count the number of days between dates
 def daysBetweenDates(year1, month1, day1, year2, month2, day2):
     """Returns the number of days between year1/month1/day1
        and year2/month2/day2. Assumes inputs are valid dates
        in Gregorian calendar."""
-    # program defensively! Add an assertion if the input is not valid!
+    # Program defensively and ensure the dates are actually valid
     assert dateIsAfter(year2, month2, day2, year1, month1, day1)
     
     days = 0
@@ -184,25 +256,27 @@ def daysBetweenDates(year1, month1, day1, year2, month2, day2):
     return days
 
 
-# Test routine
 
-def test():
+
+# Test routine
+def days_between_dates_test():
     test_cases = [((2012,1,1,2012,2,28), 58), 
                   ((2012,1,1,2012,3,1), 60),
                   ((2011,6,30,2012,6,30), 366),
                   ((2011,1,1,2012,8,8), 585 ),
                   ((1900,1,1,1999,12,31), 36523),
-                  ((1993,3,7,2019,2,4), 9465)]
+                  ((1993,3,7,2019,2,4), 9465),
+                  ((1997,1,21,2019,2,4), 5)]
     for (args, answer) in test_cases:
         result = daysBetweenDates(*args)
         if result != answer:
-            print ("Test with data:", args, ":( Failed")
+            print (":( Failed... Test with data:", args, "Ans: ", answer, "Res: ", result,"days")
         else:
-            print ("PASSED. Test case with data:", args, "Answer:", answer, "days")
+            print ("PASSED. Test case with data:", args, "Ans:", answer, "days")
 
-test()
+days_between_dates_test()
 
-print ("I am :", daysBetweenDates(1993, 3, 7, 2019, 2, 4), "days old")
+print ("\nI am :", daysBetweenDates(1993, 3, 7, 2019, 2, 4), "days old")
 print("Sydney is:", daysBetweenDates(1997,1,21,2019,2,4), "days old.")
 
 def print_abacus(value):
@@ -222,8 +296,8 @@ def print_abacus(value):
        print (numbers[int(n)])
 
 ###  TEST CASES
-print ("\nAbacus showing 0:\n")
-print_abacus(0)
+print ("\nAbacus showing 123456789:")
+print_abacus(123456789)
 
 print('\n Abacus Showing 2313608:')
 print_abacus(2313601)
@@ -246,19 +320,23 @@ def is_leap_baby(day,month,year):
 
 def output(status, name):
     if status:
-        print ("%s is a leap year baby!" % name)
+        print (name, "is a leap year baby!")
     else:
-        print ("%s NOT a leap year baby!" % name)
+        print (name, "is NOT a leap year baby!")
 
 # Test Cases
 
 output(is_leap_baby(29, 2, 1996), 'Born 2/29/1996, Calvin')
-#>>>Calvin is one of an extremely rare species. He is a leap year baby!
+#>>>Born {birthday}, Calvin is a leap year baby
 
 output(is_leap_baby(29, 2, 1900), 'Born 2/29/1900, Charlie')
-#>>>There's nothing special about Charlie's birthday. He is not a leap year baby!
+#>>>Born {birthday}, Charlie is NOT a leap year baby
 
-#Check if string is a palindrome:
+
+
+print("/n")
+
+#Function to check if string is a palindrome:
 def checkPalindrome(inputString):
     return inputString == inputString[::-1]
 
@@ -279,18 +357,53 @@ def testPalindrome():
 
 testPalindrome();
 
+
+
+print("\nCURRENT # OF DAYS SINCE \nDATE: 1997,1,22 \nFORMAT: YYYY,MM,DD")
+
+# Another iteration of this to give you the current age in days where your
+# date of birth is a parameter.
+
 def currentDaysFromBirth(year1,month1,day1):
   import datetime
   now = datetime.datetime.now()  
 
+  # These vars are just for a more readable output
+  year2, month2, day2 = year1, month1, day1
+
+  # Ensure the date is not in the future
   assert dateIsAfter(now.year, now.month, now.day, year1, month1, day1)
 
   days=0
   while dateIsAfter(now.year, now.month, now.day, year1, month1, day1):
     days +=1
     (year1,month1,day1) = nextDay(year1,month1,day1)
+  print (days, "days since", year2,month2,day2)
   return days
 
 
+# will print and return
+currentDaysFromBirth(1997,1,21)
 
-print(currentDaysFromBirth(1995,1,22))
+print ("\nDATE: 1,1,1990")
+currentDaysFromBirth(1990,1,1)
+
+print('\n\nCOUNTRY TEST:')
+countries = [['China', 'Beijing', 1350],
+             ['India', 'Delhi', 1210],
+             ['Romania', 'Bucharest', 21],
+             ['United States', 'Washington DC', 307]]
+
+def getCapital(countryName):
+  for country in countries:
+    targetName = country[0]
+    capital = country[1]
+    if targetName == countryName:
+      print (capital)
+      return capital
+  print("Cannot find that capital")
+    
+
+
+getCapital("Romania")
+  
