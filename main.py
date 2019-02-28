@@ -388,22 +388,44 @@ currentDaysFromBirth(1997,1,21)
 print ("\nDATE: 1,1,1990")
 currentDaysFromBirth(1990,1,1)
 
+
+# Testing arrays with countries and making
+# some functions to navigate arrays. 
 print('\n\nCOUNTRY TEST:')
 countries = [['China', 'Beijing', 1350],
              ['India', 'Delhi', 1210],
              ['Romania', 'Bucharest', 21],
-             ['United States', 'Washington DC', 307]]
+             ['United States', 'Washington DC', 307],
+             ['Canada', 'Ottawa', 37]]
 
+#Get capital name and display readable output
 def getCapital(countryName):
   for country in countries:
     targetName = country[0]
     capital = country[1]
     if targetName == countryName:
-      print (capital)
+      print ("The capital of", targetName, "is", capital)
       return capital
   print("Cannot find that capital")
-    
 
+#Get population from array and give readable answer
+def getPopulation(countryName):
+  for country in countries:
+    targetName = country[0]
+    population = country[2]
+    if targetName == countryName:
+      print ("Population: of",targetName,"is", str(population),"million")
+      return population
+  print("Cannot find that capital")
 
+print("\nGet Capital Test:")
 getCapital("Romania")
+getCapital("Canada")
+getCapital("United Plates")
+
+print("\nGet Population Test:")
+getPopulation("Romania")
+getPopulation("United States")
+getPopulation("Jimmy")
+
   
